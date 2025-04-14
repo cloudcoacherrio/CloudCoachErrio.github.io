@@ -1,0 +1,557 @@
+<!DOCTYPE HTML>
+<!--
+	Halcyonic by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Errio Boyd - Cloud & AI Engineer Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Professional portfolio of Errio Boyd featuring cloud projects, AI engineering, and automation news">
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+		<style>
+			:root {
+				--primary-color: #2c3e50;
+				--accent-color: #3498db;
+				--accent-hover: #2980b9;
+				--text-color: #34495e;
+				--light-text: #ecf0f1;
+				--background-color: #f8f9fa;
+				--card-background: #ffffff;
+				--border-color: #e0e0e0;
+				--shadow-color: rgba(0,0,0,0.08);
+				--button-text: #ffffff;
+				--section-padding: 4rem 0;
+				--card-border-radius: 8px;
+			}
+			
+			/* Global Styling */
+			body {
+				font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+				background-color: var(--background-color);
+				color: var(--text-color);
+				line-height: 1.6;
+				font-size: 16px;
+			}
+			
+			/* Header Styling */
+			#header {
+				background-color: var(--primary-color);
+				padding-top: 1.5rem;
+				box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+				position: relative;
+			}
+			
+			#logo {
+				color: var(--light-text);
+				font-size: 2rem;
+				font-weight: 700;
+				letter-spacing: -0.03em;
+				text-decoration: none;
+				transition: all 0.3s ease;
+			}
+			
+			#logo:hover {
+				color: var(--accent-color);
+				text-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+			}
+			
+			#nav {
+				display: flex;
+				gap: 1rem;
+				margin-top: 0.75rem;
+				flex-wrap: wrap;
+			}
+			
+			#nav a {
+				color: var(--light-text);
+				font-weight: 500;
+				text-decoration: none;
+				padding: 0.5rem 1rem;
+				border-radius: 6px;
+				transition: all 0.2s ease;
+				background-color: rgba(255,255,255,0.05);
+			}
+			
+			#nav a:hover {
+				background-color: rgba(255,255,255,0.15);
+				transform: translateY(-2px);
+				box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+			}
+			
+			/* Banner Section */
+			#banner {
+				background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+				padding: 3rem 0;
+				color: var(--light-text);
+			}
+			
+			#banner p {
+				font-size: 1.25rem;
+				margin-bottom: 1.5rem;
+				color: var(--light-text);
+				font-weight: 500;
+			}
+			
+			.button-large {
+				display: inline-block;
+				background-color: var(--accent-color);
+				color: var(--button-text);
+				font-weight: 600;
+				height: 60px;
+				text-decoration: none;
+				padding: 0.9rem 2rem;
+				border-radius: 6px;
+				font-size: 1.1rem;
+				transition: all 0.3s ease;
+				box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+				border: none;
+				cursor: pointer;
+				text-align: center; /* Added text-align: center */
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.button-large:hover {
+				background-color: var(--accent-hover);
+				transform: translateY(-2px);
+				box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+			}
+			
+			.button-large:active {
+				transform: translateY(1px);
+				box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
+			}
+			
+			.bordered-feature-image {
+				display: block;
+				border-radius: var(--card-border-radius);
+				overflow: hidden;
+				box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+				transition: all 0.3s ease;
+				position: relative;
+			}
+			
+			.bordered-feature-image:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+			}
+			
+			.bordered-feature-image img {
+				width: 100%;
+				height: auto;
+				display: block;
+				transition: all 0.5s ease;
+			}
+			
+			.bordered-feature-image:hover img {
+				transform: scale(1.03);
+			}
+			
+			/* Features Section */
+			#features {
+				padding: var(--section-padding);
+				background-color: var(--background-color);
+			}
+			
+			#features section {
+				background-color: var(--card-background);
+				border-radius: var(--card-border-radius);
+				padding: 1.5rem;
+				height: 100%;
+				box-shadow: 0 4px 12px var(--shadow-color);
+				transition: all 0.3s ease;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid var(--border-color);
+				overflow: hidden;
+			}
+			
+			#features section:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+			}
+			
+			#features section .bordered-feature-image {
+				margin-bottom: 1rem;
+				border-radius: var(--card-border-radius);
+				overflow: hidden;
+			}
+			
+			#features h2 {
+				font-size: 1.35rem;
+				margin: 1rem 0 0.75rem;
+				font-weight: 600;
+				color: var(--primary-color);
+			}
+			
+			#features p {
+				flex: 1;
+				font-size: 0.95rem;
+				color: #555;
+				margin-bottom: 0.5rem;
+				line-height: 1.5;
+			}
+			
+			/* Footer */
+			#footer {
+				background-color: var(--primary-color);
+				color: var(--light-text);
+				padding: 3rem 0;
+			}
+			
+			#copyright {
+				background-color: rgba(0,0,0,0.2);
+				color: rgba(255,255,255,0.6);
+				padding: 1.2rem 0;
+				text-align: center;
+				font-size: 0.9rem;
+			}
+			
+			#copyright a {
+				color: rgba(255,255,255,0.8);
+				text-decoration: none;
+				border-bottom: 1px dotted rgba(255,255,255,0.4);
+				transition: all 0.2s ease;
+			}
+			
+			#copyright a:hover {
+				color: #fff;
+				border-bottom-color: rgba(255,255,255,0.8);
+			}
+			
+			/* Project Tags */
+			.project-tag {
+				display: inline-block;
+				background-color: rgba(52, 152, 219, 0.1);
+				color: var(--accent-color);
+				font-size: 0.75rem;
+				padding: 0.25rem 0.75rem;
+				border-radius: 50px;
+				margin-right: 0.5rem;
+				margin-bottom: 0.5rem;
+				font-weight: 500;
+			}
+			
+			.tags-container {
+				margin-top: auto;
+				padding-top: 1rem;
+			}
+			
+			/* Animated hover effects for cards */
+			.card-indicator {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				height: 4px;
+				width: 100%;
+				background: linear-gradient(90deg, var(--accent-color), #9b59b6);
+				transform: scaleX(0);
+				transform-origin: left;
+				transition: transform 0.3s ease;
+			}
+			
+			.bordered-feature-image:hover .card-indicator {
+				transform: scaleX(1);
+			}
+			
+			/* Enhanced Mobile-friendly styles */
+			@media screen and (max-width: 980px) {
+				:root {
+					--section-padding: 3rem 0;
+				}
+				
+				.row {
+					padding: 0 1rem;
+				}
+			}
+			
+			@media screen and (max-width: 736px) {
+				:root {
+					--section-padding: 2.5rem 0;
+				}
+				
+				#nav {
+					display: flex;
+					flex-direction: column;
+					text-align: center;
+					gap: 0.5rem;
+					margin: 1rem 0;
+				}
+				
+				#logo {
+					text-align: center;
+					display: block;
+					margin: 0 auto;
+					font-size: 1.75rem;
+				}
+				
+				#nav a {
+					padding: 0.75rem 1rem;
+					width: 100%;
+				}
+				
+				.button-large {
+					display: block;
+					width: 100%;
+					text-align: center; /* Ensures text is centered on mobile too */
+					margin: 1rem 0;
+					padding: 1rem;
+				}
+				
+				#banner {
+					padding: 2rem 0;
+					text-align: center;
+				}
+				
+				.bordered-feature-image {
+					margin: 0 auto 1.5rem;
+					max-width: 85%;
+				}
+				
+				#features {
+					padding: 2rem 0 0.5rem;
+				}
+				
+				#features .col-3 {
+					margin-bottom: 1.5rem;
+				}
+				
+				#features section {
+					margin: 0 0.5rem;
+					height: auto;
+				}
+				
+				#features h2 {
+					font-size: 1.25rem;
+					margin-top: 0.5rem;
+				}
+			}
+			
+			@media screen and (max-width: 480px) {
+				#logo {
+					font-size: 1.5rem;
+				}
+				
+				.button-large {
+					font-size: 1rem;
+					padding: 0.85rem 1rem;
+				}
+				
+				#banner p {
+					font-size: 1.1rem;
+				}
+				
+				#features h2 {
+					font-size: 1.2rem;
+				}
+				
+				#features section {
+					padding: 1.25rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Logo -->
+									<h1><a href="index.html" id="logo">Errio Boyd</a></h1>
+
+								<!-- Nav -->
+									<nav id="nav">
+										<a href="threecolumn.html">Projects</a>
+										<a href="twocolumn1.html">Vlogging</a>
+										<a href="twocolumn2.html">Automation News</a>
+										<a href="onecolumn.html">Journey</a>
+									</nav>
+
+							</div>
+						</div>
+					</div>
+					<div id="banner">
+						<div class="container">
+							<div class="row">
+								<div class="col-6 col-12-medium">
+
+									<!-- Banner Copy -->
+										<p>Explore cloud solutions and AI implementations that solve real-world problems</p>
+										<a href="threecolumn.html" class="button-large">Projects</a>
+
+								</div>
+								<div class="col-6 col-12-medium imp-medium">
+
+									<!-- Banner Image -->
+										<a href="onecolumn.html" class="bordered-feature-image">
+											<img src="images/ccefin.png" alt="Learn more about my journey" loading="lazy" />
+											<div class="card-indicator"></div>
+										</a>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Features -->
+				<section id="features">
+					<div class="container">
+						<div class="row">
+							<div class="col-3 col-6-medium col-12-small">
+
+								<!-- Feature #1 -->
+									<section>
+										<a href="basickinesisdemo.html" class="bordered-feature-image">
+											<img src="images/BKDimage.png" alt="Basic Kinesis Demo" loading="lazy" />
+											<div class="card-indicator"></div>
+										</a>
+										<h2>Basic Kinesis Demo</h2>
+										<p>
+											This demo showcases a simple AWS data pipeline that streams data from a Lambda producer 
+											through Kinesis Data Streams to a Lambda consumer that stores the processed information in DynamoDB.
+										</p>
+										<div class="tags-container">
+											<span class="project-tag">AWS</span>
+											<span class="project-tag">Kinesis</span>
+											<span class="project-tag">Lambda</span>
+										</div>
+									</section>
+
+							</div>
+							<div class="col-3 col-6-medium col-12-small">
+
+								<!-- Feature #2 -->
+									<section>
+										<a href="twocolumn1.html" class="bordered-feature-image">
+											<img src="images/PromptSmile.png" alt="Prompt Engineering Demo" loading="lazy" />
+											<div class="card-indicator"></div>
+										</a>
+										<h2>Prompt Engineering Demo</h2>
+										<p>
+											Watch as I demonstrate Claude 3.7 Sonnet on Amazon Bedrock and break down the 7 ESSENTIAL prompt engineering techniques 
+											to get optimal results from generative AI models.
+										</p>
+										<div class="tags-container">
+											<span class="project-tag">AI</span>
+											<span class="project-tag">Bedrock</span>
+											<span class="project-tag">Claude</span>
+										</div>
+									</section>
+
+							</div>
+							<div class="col-3 col-6-medium col-12-small">
+
+								<!-- Feature #3 -->
+									<section>
+										<a href="twocolumn2.html" class="bordered-feature-image">
+											<img src="images/autonews.png" alt="NOVA 1-2 PUNCH!" loading="lazy" />
+											<div class="card-indicator"></div>
+										</a>
+										<h2>NOVA 1-2 PUNCH!</h2>
+										<p>
+											Stay informed about the latest in cloud innovation, AI certification tips, and how professionals across industries can leverage 
+											Amazon's generative AI tools to create stunning visuals and videos.
+										</p>
+										<div class="tags-container">
+											<span class="project-tag">Generative AI</span>
+											<span class="project-tag">Tutorial</span>
+											<span class="project-tag">Nova</span>
+										</div>
+									</section>
+
+							</div>
+							<div class="col-3 col-6-medium col-12-small">
+
+								<!-- Feature #4 -->
+									<section>
+										<a href="https://pages.awscloud.com/GLOBAL-other-GC-Traincert-Foundational-and-Associate-Certification-Challenge-2025-reg.html?trk=d3a1f27e-0e31-4b33-b197-7da0d6f5bf67" class="bordered-feature-image" target="_blank" rel="noopener">
+											<img src="images/awschallenge.png" alt="AWS Certification Discount" loading="lazy" />
+											<div class="card-indicator"></div>
+										</a>
+										<h2>Save 50% on AWS Certification</h2>
+										<p>
+											Take advantage of this limited-time offer to save 50% on your AWS certification exam. Valid until May 21, 2025 at 5:00 PM PDT. 
+											To receive the discount, you must take and pass the exam by this deadline.
+										</p>
+										<div class="tags-container">
+											<span class="project-tag">Certification</span>
+											<span class="project-tag">AWS</span>
+											<span class="project-tag">Discount</span>
+										</div>
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+				<section id="footer">
+					<div class="container">
+						<div class="row">
+							<div class="col-8 col-12-medium">
+								<!-- Links -->
+								<div class="row">
+									<div class="col-4 col-12-small">
+										<h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 1rem;">Projects</h3>
+										<ul style="list-style: none; padding: 0;">
+											<li style="margin-bottom: 0.5rem;"><a href="threecolumn.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Data Engineering</a></li>
+											<li style="margin-bottom: 0.5rem;"><a href="threecolumn.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">AI Engineering</a></li>
+											<li style="margin-bottom: 0.5rem;"><a href="threecolumn.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Cloud Architecture</a></li>
+										</ul>
+									</div>
+									<div class="col-4 col-12-small">
+										<h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 1rem;">Resources</h3>
+										<ul style="list-style: none; padding: 0;">
+											<li style="margin-bottom: 0.5rem;"><a href="https://www.youtube.com/@CloudCoachErrio" style="color: rgba(255,255,255,0.7); text-decoration: none;">YouTube Channel</a></li>
+											<li style="margin-bottom: 0.5rem;"><a href="twocolumn2.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Technical Blogs</a></li>
+											<li style="margin-bottom: 0.5rem;"><a href="threecolumn.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Training Materials</a></li>
+										</ul>
+									</div>
+									<div class="col-4 col-12-small">
+										<h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 1rem;">Connect</h3>
+										<ul style="list-style: none; padding: 0;">
+											<li style="margin-bottom: 0.5rem;"><a href="www.linkedin.com/in/errioboyd" style="color: rgba(255,255,255,0.7); text-decoration: none;">LinkedIn</a></li>
+											<li style="margin-bottom: 0.5rem;"><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Contact</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col-4 col-12-medium imp-medium">
+								<!-- Blurb -->
+								<h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 1rem;">About Errio Boyd</h3>
+								<p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+									Cloud computing specialist and AI engineer with expertise in AWS technologies and a passion for creating educational content to help others build scalable, efficient cloud solutions.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Copyright 
+				<div id="copyright">
+					&copy; Errio Boyd. All rights reserved. | Design: <a href="http://html5up.net">HTML5 UP</a>
+				</div> -->
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js" defer></script>
+			<script src="assets/js/browser.min.js" defer></script>
+			<script src="assets/js/breakpoints.min.js" defer></script>
+			<script src="assets/js/util.js" defer></script>
+			<script src="assets/js/main.js" defer></script>
+
+	</body>
+</html>

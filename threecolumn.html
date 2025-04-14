@@ -1,0 +1,355 @@
+<!DOCTYPE HTML>
+<!--
+	Halcyonic by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Projects - Errio Boyd</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			/* Improved Mobile Responsiveness, Background, and Text Readability */
+			:root {
+				--primary-color: #2c3e50;
+				--accent-color: #3498db;
+				--light-bg: #f8f9fa;
+				--dark-text: #333333;
+				--light-text: #f5f5f5;
+				--link-color: #2980b9;
+				--link-hover: #1c6ea4;
+				--card-bg: #ffffff;
+			}
+			
+			body {
+				background-color: var(--light-bg);
+				color: var(--dark-text);
+				font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+				line-height: 1.7;
+				font-size: 16px;
+			}
+			
+			/* Add custom web font for better readability */
+			@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+			
+			#header {
+				background-color: var(--primary-color);
+				padding: 1.5rem 0;
+			}
+			
+			#logo {
+				color: var(--light-text);
+				font-weight: 600;
+				font-size: 1.75rem;
+			}
+			
+			#nav {
+				display: flex;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+				gap: 1rem;
+				margin-top: 1rem;
+			}
+			
+			#nav a {
+				color: var(--light-text);
+				font-weight: 500;
+				text-decoration: none;
+				transition: color 0.3s ease;
+				padding: 0.5rem 0.75rem;
+				border-radius: 4px;
+			}
+			
+			#nav a:hover, #nav a.active {
+				background-color: rgba(255, 255, 255, 0.1);
+				color: var(--accent-color);
+			}
+			
+			#content {
+				padding: 2.5rem 0;
+			}
+			
+			#content section {
+				background-color: var(--card-bg);
+				padding: 1.5rem;
+				border-radius: 8px;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+				margin-bottom: 2rem;
+				height: 100%;
+			}
+			
+			h2, h3 {
+				color: var(--primary-color);
+				line-height: 1.3;
+				margin-bottom: 1rem;
+			}
+			
+			h2 {
+				font-size: 1.5rem;
+				font-weight: 600;
+			}
+			
+			h3 {
+				font-size: 1.2rem;
+				font-weight: 600;
+			}
+			
+			p {
+				margin-bottom: 1.25rem;
+				font-weight: normal;
+				font-size: 1rem;
+			}
+			
+			.link-list {
+				list-style: none;
+				padding-left: 0;
+				margin-bottom: 1.5rem;
+			}
+			
+			.link-list li {
+				margin-bottom: 0.5rem;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+				padding-bottom: 0.5rem;
+			}
+			
+			.link-list a {
+				color: var(--link-color);
+				text-decoration: none;
+				transition: color 0.3s ease;
+				display: block;
+				padding: 0.25rem 0;
+			}
+			
+			.link-list a:hover {
+				color: var(--link-hover);
+				text-decoration: underline;
+			}
+			
+			#footer {
+				background-color: var(--primary-color);
+				color: var(--light-text);
+				padding: 2rem 0;
+			}
+			
+			#footer h2 {
+				color: var(--light-text);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+				padding-bottom: 0.75rem;
+				margin-bottom: 1.25rem;
+			}
+			
+			#footer .link-list a {
+				color: rgba(255, 255, 255, 0.8);
+			}
+			
+			#footer .link-list a:hover {
+				color: var(--light-text);
+			}
+			
+			#copyright {
+				background-color: rgba(0, 0, 0, 0.15);
+				color: rgba(255, 255, 255, 0.6);
+				padding: 1rem 0;
+				text-align: center;
+				font-size: 0.9rem;
+			}
+			
+			#copyright a {
+				color: rgba(255, 255, 255, 0.8);
+			}
+			
+			/* Enhanced mobile responsiveness */
+			@media screen and (max-width: 736px) {
+				.container {
+					padding-left: 1.5rem;
+					padding-right: 1.5rem;
+				}
+				
+				#header {
+					text-align: center;
+					padding: 1.5rem 0 1rem;
+				}
+				
+				#nav {
+					justify-content: center;
+					margin: 1rem 0 0.5rem;
+				}
+				
+				#logo {
+					margin-bottom: 0;
+				}
+				
+				#content section {
+					margin-bottom: 1.5rem;
+				}
+				
+				#content {
+					padding: 1.5rem 0;
+				}
+				
+				h2 {
+					font-size: 1.4rem;
+				}
+				
+				h3 {
+					font-size: 1.15rem;
+				}
+				
+				/* Improve mobile layout */
+				.col-3.col-12-medium, .col-6.col-12-medium {
+					margin-bottom: 1rem;
+				}
+				
+				/* Add spacing between mobile sections */
+				.row > * {
+					padding: 0 0.75rem;
+				}
+			}
+
+			/* Fix navigation on very small screens */
+			@media screen and (max-width: 480px) {
+				#nav {
+					flex-direction: column;
+					align-items: center;
+				}
+				
+				#nav a {
+					width: 100%;
+					text-align: center;
+					padding: 0.75rem;
+					margin-bottom: 0.25rem;
+					border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				}
+			}
+		</style>
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Logo -->
+									<h1><a href="index.html" id="logo">Errio Boyd</a></h1>
+
+								<!-- Nav -->
+									<nav id="nav">
+										<a href="index.html">Home</a>
+										<a href="threecolumn.html" class="active">Projects</a>
+										<a href="twocolumn1.html">Vlogging</a>
+										<a href="twocolumn2.html">Automation</a>
+										<a href="onecolumn.html">Journey</a>
+									</nav>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Content -->
+				<section id="content">
+					<div class="container">
+						<div class="row">
+							<div class="col-3 col-12-medium">
+
+								<!-- Left Sidebar -->
+									<section>
+										<!-- <header>
+											<h2>Data Engineering</h2>
+										</header> -->
+										
+										<p>
+											<img src="images/awsdateng.png" alt="AWS Data Engineering" loading="lazy" width="250" height="250"/>
+										</p>
+										<ul class="link-list">
+											<li><a href="basickinesisdemo.html">Basic Kinesis Demo</a></li>
+										</ul>
+										<p>
+											The Data Engineering section showcases practical implementations of cloud-based data pipelines, 
+											storage solutions, and analytical frameworks that address real-world data processing challenges. 
+											Through detailed walkthroughs of ETL processes, data lake architectures, and streaming solutions, 
+											these projects help bridge the gap between theoretical database knowledge and the practical skills 
+											needed to build scalable, resilient data systems in production environments.
+										</p>
+									</section>
+							</div>
+							<div class="col-6 col-12-medium imp-medium">
+
+								<!-- Main Content -->
+									<section>
+										<header>
+											<h2>Projects</h2>
+											<h3>Hands-on Cloud Solutions for the Modern Technology Skills Gap</h3>
+										</header>
+										
+										<p>
+											The Projects page addresses the gap between cloud technology adoption and hands-on professional experience by providing 
+											deep-dive demonstrations across critical domains including AI Solutions, Data Engineering, AWS DevOps Architecture, Containers, 
+											Security, and Cloud Networking. Each project category transforms abstract concepts into tangible skills through step-by-step 
+											implementations, detailed architecture explanations, and real-world problem-solving scenarios that mirror production environment challenges. 
+											For newcomers transitioning from low-code environments or traditional IT roles, entry pathways with clear prerequisites and progressive complexity 
+											provide accessible starting points. Project pages include not just implementation steps but contextual explanations of architectural decisions, 
+											best practices, and common pitfalls encountered in production systems.
+										</p>
+											<h1>AWS Solutions Architect - Associate Level Tutorials</h1>
+										<p>
+											<img src="images/awssolarc.PNG" alt="AWS Certification Discount" loading="lazy" width="500" height="500"/>
+										</p>
+										<ul class="link-list">
+											<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html">Create your First Customer Managed Policy in IAM Tutorial</a></li>
+											<li><a href="https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html">Create your First VPC</a></li>
+											<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html">Create your First Virtual Sever with EC2</a></li>
+											<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStartedDynamoDB.html">Create your First DynamoDB Table</a></li>
+										</ul>
+										
+									</section>
+
+							</div>
+							<div class="col-3 col-12-medium">
+
+								<!-- Right Sidebar -->
+									<section>
+										<!-- <header>
+											<h2>AI Solutions</h2>
+										</header> -->
+										<img src="images/awsaisol.png" alt="AWS AI Solutions" loading="lazy" width="250" height="250"/>
+										<ul class="link-list">
+											<li><a href="bedrockcontentgen.html">Bedrock Content Generator</a></li>
+										</ul>
+										<p>
+											The AI Solutions projects bridge theoretical machine learning concepts with production-ready cloud implementations, 
+											guiding you through deployments ranging from beginner-friendly SageMaker notebooks to complex ML pipelines with automated 
+											retraining mechanisms. Each hands-on example demonstrates not only core AI components but also their integration with 
+											essential infrastructure like data lakes and API gateways.
+										</p>
+									</section>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+				<section id="footer">
+					<div class="container">
+						<div class="row">
+							<div class="col-8 col-12-medium">
+
+								<!-- Links -->
+									
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js" defer></script>
+			<script src="assets/js/browser.min.js" defer></script>
+			<script src="assets/js/breakpoints.min.js" defer></script>
+			<script src="assets/js/util.js" defer></script>
+			<script src="assets/js/main.js" defer></script>
+
+	</body>
+</html>

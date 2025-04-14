@@ -1,0 +1,468 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>AWS Kinesis Data Streaming Demo | Cloud Coach Errio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Learn how to create a producer-consumer architecture with AWS Kinesis Data Streams, Lambda, and DynamoDB" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- Add custom CSS for better readability -->
+		<style>
+			body {
+				font-family: 'Open Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+				line-height: 1.6;
+				color: #333;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+				color: #0d6efd;
+				margin-top: 1.5rem;
+				margin-bottom: 1rem;
+			}
+			code {
+				background-color: #f8f9fa;
+				padding: 2px 4px;
+				border-radius: 3px;
+				font-family: 'Consolas', 'Courier New', monospace;
+				color: #e83e8c;
+			}
+			pre {
+				background-color: #f8f9fa;
+				padding: 1rem;
+				border-radius: 5px;
+				overflow-x: auto;
+				border-left: 4px solid #0d6efd;
+				margin: 1.2rem 0;
+			}
+			.step-number {
+				display: inline-block;
+				background-color: #0d6efd;
+				color: white;
+				width: 25px;
+				height: 25px;
+				line-height: 25px;
+				text-align: center;
+				border-radius: 50%;
+				margin-right: 8px;
+			}
+			.use-case {
+				background-color: #f0f7ff;
+				border-left: 5px solid #0d6efd;
+				padding: 1.5rem;
+				border-radius: 5px;
+				margin-bottom: 2rem;
+			}
+			.command-box {
+				background-color: #212529;
+				color: #fff;
+				border-radius: 5px;
+				padding: 0.75rem;
+				margin: 1rem 0;
+			}
+			@media (max-width: 768px) {
+				.hide-mobile {
+					display: none;
+				}
+				#nav a {
+					margin: 0 0.5rem;
+					font-size: 0.9rem;
+				}
+			}
+			a {
+				color: #0d6efd;
+				text-decoration: none;
+			}
+			a:hover {
+				text-decoration: underline;
+			}
+			.btn {
+				display: inline-block;
+				padding: 0.5rem 1rem;
+				background-color: #0d6efd;
+				color: white;
+				border-radius: 5px;
+				text-decoration: none;
+				margin-top: 1rem;
+				font-weight: 600;
+			}
+			.btn:hover {
+				background-color: #0b5ed7;
+				text-decoration: none;
+			}
+			.alert {
+				padding: 1rem;
+				border-radius: 5px;
+				margin: 1rem 0;
+			}
+			.alert-warning {
+				background-color: #fff3cd;
+				border-left: 4px solid #ffc107;
+			}
+			.alert-info {
+				background-color: #cff4fc;
+				border-left: 4px solid #0dcaf0;
+			}
+			.features-list li {
+				margin-bottom: 0.75rem;
+			}
+		</style>
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Logo 
+									<h3><a href="index.html" id="logo">Cloud Coach Errio</a></h3> -->
+
+								<!-- Nav -->
+									<nav id="nav">
+										<a href="index.html">Home</a>
+										<a href="threecolumn.html">Projects</a>
+										<a href="twocolumn1.html" class="active">Cloud Tutorials</a>
+										<a href="twocolumn2.html">Automation News</a>
+										<a href="onecolumn.html">My Journey</a>
+									</nav>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Content -->
+				<section id="content">
+					<div class="container">
+						<div class="row">
+							<div class="col-9 col-12-medium">
+
+								<!-- Main Content -->
+									<section>
+										<header>
+											<h1>Producer and Consumer Architecture in AWS</h1>
+											<h3>Build a Real-Time Data Pipeline with AWS Kinesis, Lambda, and DynamoDB</h3>
+										</header>
+										
+										<div class="alert alert-info">
+											<strong>👨‍💻 Hands-On Learning:</strong> In this tutorial, you'll build a complete serverless event-driven architecture that processes streaming data in real-time.
+										</div>
+										
+										<iframe frameborder="0" style="width:100%;height:1216px;" src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=basickinesisdemo.drawio#R%3Cmxfile%3E%3Cdiagram%20id%3D%22Ht1M8jgEwFfnCIfOTk4-%22%20name%3D%22Page-1%22%3E7V1bV%2BM4Ev4t%2B5Az3Q%2Fh2LmSRyAw0zswwzQ9O7vz0kexlUSNbXlkmUD%2F%2BlXp4qucBEiaAKb7QCLJsqyqr6pUVZI7%2FbPw%2FmeG4uUV9XHQ6Tn%2Bfac%2F7fR6bn84EX%2Bg5EGXuMOBKlkw4uuyvOCGfMe60NGlKfFxUmrIKQ04icuFHo0i7PFSGWKMrsrN5jQo3zVGC1wruPFQUC%2F9i%2Fh8qUqPe%2BO8%2FBdMFktzZ3eknzhEprF%2BkmSJfLoqFPXPO%2F0zRilXn8L7MxzA7Jl5UdddNNRmA2M44ttc8Ed8%2Bt%2FJz7%2Be3n5J%2Fv7yObik3X%2F%2F0u33VDd3KEj1E%2BvR8gczBYymkY%2BhF6fTP10tCcc3MfKgdiWoLsqWPAzEN1d8nJMgOKMBZfLa%2FvnJ%2BfR8CuU04pq68Ojye6HdhfwR5Qln9BabmohG4orTAM1wcIq824UcS6VWPwFmHN83zo2bzbjgVUxDzNmDaHJf5jbNpZOJezRUJauc6BPTalkgeG9wbJoizWqLrPucGuKDJshjiOO2xKkTpz%2Fp1UgzGFpIMzneE116o5YuMOnjMmHGzsiCGitpeuP%2B3lDTG7TUsVBna9j0nR3g5tvf%2F0F%2Frn5fDP%2F8X%2F9y8ttJdOf%2F0x3X5dnJXzei4CygqV8jUkxJxOUYhqfivxjqmdMZipoz%2BHbUG1YKqt%2FH5QK3%2Fg36KBdUv4%2FLBW61e7dyf7c6wEJB7Vupe6dyf6cwwCGwG015QCLBR8bQAdZdMOQTnPOd5p8C99qYu8C5ruHcGz3x0KswVWL4HN4vwKw7QqtkcASMGstbfhLGlrX2q%2Fj41QNifkUBr7G%2BAIX4dwEcUwKVHjSwOxGW10lAFtA%2Fp3A7pL8FeC57FE9CosWl%2FDbtO3XcZbfwUbLMML4eb%2BKBOBKTy%2FSkSdbD7PwOKw50ZJsgQHFCZtk0MeylLCF3%2BDNO1Gw6GXZrQLXAuRG7veMydl1jQxawOxrY5OrI2ZctslmoKgZpklzaQEcz09ypT9QaqdE4V8NxaaqO6zM17B8fOYWffn3e3J57NCn%2BDPYkAo%2Fr9vY1o37qCdbrORdp5HEiwFWdWiv2m%2Fi%2BQSZU1NjUGZ654yb1VMKOAeYlYOiaJkSOsT%2BdUc5puBG5HgYsVXTqBgmEklg96JzcwzhqiHSbxFSAwpmPvs7NVDZCX8zBXP7kUuULjHvas4J4LSq2RvagopTHVrYrMO%2F4uM6t430paNepa2h3jfHUpF%2BajSfHGZ%2BdTpu4rsmCKnJHhXuk5bWNMbVDWhYtKJsBtQPydP%2F4xtm3P79%2Fnp5fff57eHVxTIVle1yjzqClThPSLDpzX9RqAFNd1q9bibxvcrmDFydX3cTpt%2BRqslAnL0yuY8taMkTfwXYayaXHTBhUowV8mj5EKKTT03rNbu0sUTeYjkVloW5KxCJBm0sRZTBVVbYQP4PTiW2xlJknB2eNWS0vhhOaMg%2Br5aFYHSW2haIvqeHPtjPM9qYdRk55TTAo2WWD%2FmHZZe4WnmDsL7AhGg5mdHWeF5yWHV7AiHRBI8FEVJq8wATfMOcPmgtQymmZRXDkn0A4RXylMY5UyQWB51AugyrzDgfD09EgqzHBk16F3QaPJjJHbIHXLhi1ZxEmZC0vMBwgLpbvJUPXRjx96TWsQQoqyz0uMc14XO5BoUFfVOGAbBTPYYotYjfvhSnUXG%2FBFBu5xzgQdsc9z%2FOZDhv1nPOrUFUJSSwaD3Ek6m84wyi01O9c700Gw%2BlF73F6b3jSd06H70bv3SpiffUFbb4mmjKPd04M92mDj8u%2BtAPzThhkFqAgGDZJw9Z3djC%2Bs%2FEe2bNvFJ6dPY%2BPRy9tpW3hJH9LCtm4Bjfp3t2rVLtBNq6ETWoWmVL%2Bu7DIrP65%2FrhG%2F7fo8Hl0OGurUPSPdKT2JzVCvUVH6rMJ1ZDR8SNJNagr%2FWFLKkvG2gtDalCXfcIQIV5xmeJMcUhrxBMPzMsUYhBOR3mcvZwIArQCzadD7m6nliNgN6lKdkp3UCZalkhQJOqPJmLPhrbM01ok42AHYX47GeshphsSxmJKek4hUI0iX%2FwuWN8nzAPUeTxlWBM6EoBCyiIfoRAoEM2S2Lb6PAgOcEcvQPGxLc%2B0ISvr%2BRS3p8vVgxxFGzU3QndrqN4T%2Fl99OXz%2BH3w%2BGupv0%2FtC1fSh8OUaMyKeWybq5Mk2FcNyo5V6c%2Fafqy%2Bnf8WXd%2Fz7vz8tv7vD4Kq7JydhJZNHaNR%2B8WdvFmrzM65foMBa2boeaFiBDl4ANq6zdX62uwPcWKeybkIaP1tcmtDRPylk%2BJ%2BGgrJEyKITUevE99nvnvgNc%2BTApHbvECNI%2FI1ArgrtKZtHlIUosLTCKOFdoWVRtKEhCgRkIsRhJ4W1IYjSLvK%2FpQk3LTTtVP2tuFyITlWn4WzqaCxlLfTR1GSOEWiGbiKEgmjTNAo5XFAZWzUUf%2BPMobJ%2BnkL6jTQ9OWeYe8s186Kq3JEhFCCka3jMetUchSR4UJWZ9tN88AsO7jBMmKj7DQveqdTLbgzTiDZegJKkxEmxW2xgPLrax2sKroWcRBJCxjGW%2BYEFu8%2Bq14myuFpGAysjV%2BYlxD5Jw82jpsGaYQdkK8y0OHkFOOkfCk4C0qtznDAgxFqEY6mjbzhlcv8XDODLUlquWbKAo3JVe86HvJdbP%2BnOYFnT1ZWm4iPwL2Z3OFG6Rlwtu5sTYRWJvz5OBJ20OSweHmzmmFEPJwn2Je9DQADYQrSV0Zsz1eKO%2BLo0ZeqWUBHQaNEVrBrKS9VD9JwZfqDSMFf35jiMRZW2YuCR1d1jgRgKzei8U1qdlaJGRwXRAPBsAdsC9iUAe0lX3UtB4MgDPj7xADJqAAWo0vlc4BpYUsxtgLs%2BWRAAuBhtQBLsKViIVWUs9KDEhlhFJApLIbpVCFOoKaJSIdEhISg5MYYAhoDuEAm0aFBARnEciOfWSlb0g%2BDeEZZ9CHbpOf%2BkWMJQNhdkYQTfwfWEtzBrYXYIMIMtz5qpS1qxADKgSYgkrSQQEtglnRgWR55Hw5AKyOAMSxo%2FdzQQ7NiBxRpf0pRLDPyTEqZwF6IolUpSqrtEkEOWAzaTNBYqjBfxmUYxE2j0jHaOkPY5SW1W16POirLbgCK%2F1Wgt1A4EakscAnSUSzyRLsrcApWM%2FRPUzQN8TxSXJ%2FIaoFYQwJkGoDoM8sAAhDYwhTRNcs6fw8PygkoK5USAoVhRdHzJaLpYZiArwigmMZZOIYlI5KPY4BFujgW470p4E9em0g%2B8AXCiEFaYDRlJdZ%2FwDly8m31VttjRPgJrg8G2jl%2FXHe%2FJg%2BXWQ2uGNj65q5IrtbgamrwDzwZVo%2FOltpxb59SATqAv5JXHaBlCg19CsFPU%2FJhbjK%2Fml2FYqj4hC%2FEmh4y6ea1YPVWtuEYfUWYho6Xo%2BdNkZ4U9TmtXMda6mdJPtfke%2FYZ7qK3pVygStlCo%2FAUQ8KJSHot1iJAeUNYZg1j8dHIlfv%2BZyGAYmDnQJhYiNgY1KcWtWK2TJNFrhA%2FyAriyaf2tanPzC76pIV3KLK2P2b2vH4RVBfPZz4pmlFP4dklm2gGgyvV2%2B8tPpqQamdvEZTY%2BbWha4rQ3Ld2fekCJu7es4WE9OnHiCTMhqVEiWZEwQFmuQ3EuazmIpu1FOYNiPoB%2FnVpmRVaecMSyQDvsjjmw7fbV6JJl52C2sX7nu%2B2t9BvVVfM1owuGQrkAy0TN%2FlNds%2BZvLNU1TeS9Hhu5XI%2B2rTluNCqbg3WGMxuSSjkAOziVwJoDUD%2FPSCmKTMtV%2BKw9meWlTmbZpeR8%2Bikvmi0s%2BcRnUziZpCJGdnu%2BS3aLkvBpQODW6G1WDqOydhj2j3qW3APb%2BWOjo%2FG%2BDrna4oyrH5DF09mcfbNWYG7MHDdzX9y11SzBdp68M6kYBlV935Ctc8IYeig00%2BKyOUdoWL7PpF%2FhD9XhUzOBrBNWT9fczprYt8a3CKX%2BkReQumUykD%2FNknZ%2FEqHizHGH4yOz9aN47JBFJAyH%2BxMJlj3CheWefQFmNepq5LHI8gLFqjQOie8HTautssjZH4l6FRKNnSNztk3xDK0fmWjp1ndympX7%2ByLOAdLGSL%2FXIQ5R5DMKz1MViRcX08Hg4gVEYu84M4oMVW0HhGSHfpZk4r5WNfVU9gO1kSwZynYJ0tuLleNWtyEcV2DWcJBBvaPqPq%2Fenuwlx36fvRpM25y2sFEArJHMDbLAviupuoXp9Fzuvq9Ji%2B8pw0diMag6tzlHthIJG9xn5WMwXOumBtce29pXdrbNvG2zs99wyL%2FNzm6zs1ucvPbUGB0CPU0hn1NllaithlPs0TQOMsqoVJmG2GmnmosNVTPZJ3zAfIUxxEuzhM%2FytkYv39bo0TAWLCStEYif%2BvkwKjluCxxhluV3Mxp2sgwb0fpIDlmONEvgwchbFm%2FR0Rk1NIaOZHaosDxjLH5FXGWeQhsiE3roSmZyi%2BVbm9XWQvcQoFtIIP2issniVA%2BvOcXB8WQiyFIAT14ZilsRmRmNQggxSFaf5yiLJSpNQrfMEBW3VXDUoLslAZ098DwxdUEWyBRkfQEgP%2FGO2WKB8x0bHorRjASEP5gOstEJaj6UUt1UYitca89sReVd0Z7oabEpLa5FbIvYH4PYzzggGrEal18YihLQkhXYYqEQmeRzll%2BjMcDNNVnek65gONsVAdT1GJUJr2EKL%2B%2BSPeidFAZs3wX%2FaD1Lc%2F0%2FR%2BICCcVA6MXIkxdKPb0kMmO12EsLrRZahwCtjYmOsyzlpOspR86JwZJxvMjb5XUBPGHXR%2Bz2A1vMPjgKKObPR%2FUXanrDofpS%2FPDxY%2BVJ1Dh%2FZz5mMgP8s9CpDD5cZ0ZrVQqEiMjkg1xXUrjcqFUmezDKkMBzaxM3WSKm1bWUJMZ8lvas1rq5za3SGzt5gnoho53kZnuC5JaSRKhbrKSCzIhfSYNf2%2FR%2BUR40pNO2ielF592gb3HbW9%2FgNdxbLMZ2skKFCM9%2F1czjjmmxvUvAOivHe3vnXD16WJuVN%2FFWszU8USfXZi6d7CTgbj9Frh5gejcvDMhAun2SbR1BezqfzD5gWzSwjQi8YQuxjQi0EYEWJ699JZV59Kvrki%2BN64bs%2BGqhEuRahZHFQi9zqnvYV0sc4Tt5fYRXneIqBsUxRqy86GjwZBa9idmSRVwhj5rIe5QdRapTcVnQhVMoWpdFC7RDAFrJBSg3jmfT0gy1gNyqQ1FizOCiRDI4QEDpMl7qTXrgZQguTQBI8D2gC7mfieYgI5FH9d7zxKDfOBupBBkG%2B7SjV%2FzqDJb8FCSJMrNvskVXi66DQFd%2BjMqniOMFK8DrZM4lqvJwcaccXD7rrHOTrRjhhfgVw0ka8Cz6Vd5ADGFxHZqqn1GWcByX1Z2JuukTIFowtWA6BDCdMyZl%2Fi8QmN3CIBQKJUhVjNeom3Jgt4S8OSKBinZJj7o8rEt%2FUXEnfO%2FhWBuYSzMEcxyKjJR1CkEwiJdtEZt6ZU7nXTrxHsqun5fzPBvf9wF5ngeW95nbZ2V%2FJ%2FvXdwe%2FUs%2Fz5lcSOQ2UfYLnube3l5fU6fF%2B3tH9NALtydFszTy3oaX1M79hW6n1M7d%2B5hYnr31Nod1fnyBBs%2Br5KmSI25zMyOOVU7%2BFEpMQi%2FW%2BNeWiynJY5Eqh%2BaDFzJvMsIeJSmMnUSyzS3UfH3SyqznoO4E6fKeyyPUCXrqpfUE6OClMrVzEOFZI%2B6KzfPNNnu12yd%2FC81DgeSFdyTyjwymeq7NPExyZc%2FILnuKMqXMPmg3LmRc7PzBV4SU%2FyrRjcU4X75St%2BwmXR7fCrg5BapUpq%2FNii4j%2FSSXTQqq4PFwwv6f2vNFVlDm%2FjU9DXoTv4cgr5U9v0dmi8xDQ%2BVrSXbNg8l%2BM8IrjsKDQUxXAVaen3Ex%2FBYUrT9T8aOAufe6dYmx3syqVHSvJcZ3yLN9WmgZZgbzvNRzPCRHq5L3lrz530V%2F2xq1xLA4mFpeNszfHou3F0K1T4A3L69flFLhJQ%2BUUeJwjwM67u3moZg34QrrEae2mV4DDtXDzSRIHSHMlidRLDZx%2FEXhNFkeacR6NJmU%2B%2BPLVxk6yVJu7gbcT8%2BLceUAhtWy1xExxczOk0jW%2Btedj6qWg80TXYNq6Bt8mSp%2B0utmwLFnDKutfN9DyxaHyxeRpRtQVjgK6mWWSNRxTWW5JKVl2suqk4twxZHEstb6Z98ClrfRq%2BeKgpVdzECtPHbV5r4z%2FuRVj74FdWzHW8sUrEGO2%2FN4PxR1es4dOOdT2sVPbl9UxwbtWtL0HFm5FW8sXBy3aLmAHDmQglPIUaq8hV0YZVXKutM1tUzwwDaqFre%2B%2BldoHhs4nC2e7Vz7Lf4NEGqTWOaiTneEKIJInUoFDp%2BszcifPhK0c2ah89vlOOL2IytN1jD0iS3QqkmBlcb%2BKMVJfV8kdRXAarN53pPaxZsdoqt1HCQmI8jjlQ8gPlW1jcy2%2B3ye%2Bsxg2ayPVLRreOxo%2BRVq5yWNFVpQFMn3Vw5EYIt2U%2FxrKQcDJ6J3yaSlSfcFT0lQqLvkeGLmNltzKt2DLTLWfBeFXSFuvN32jU81RrvKASHFz%2BKtS6uQudE%2FntSccI5kHN5ecG6UIQuDFaEvSoOgOPbHteS9Vqbwky7EczDgxjUpZbE94p4r4yigwVFb3M7w%2F5or6GFr8Hw%3D%3D%3C%2Fdiagram%3E%3C%2Fmxfile%3E"></iframe>
+										
+										<h2>Overview</h2>
+										<p>In this hands-on tutorial, you'll create a complete AWS data streaming pipeline that processes events in real-time. You'll learn how to decouple your application using a producer-consumer pattern - a fundamental architectural approach in cloud computing that enables building scalable, event-driven systems.</p>
+										
+										<div class="alert alert-warning">
+											<strong>🎯 What you'll build:</strong> A serverless data pipeline that captures, processes, and stores streaming data using AWS Kinesis Data Streams, AWS Lambda, and Amazon DynamoDB.
+										</div>
+
+										<h2>Prerequisites</h2>
+										<div class="features-list">
+											<ul>
+												<li><strong>AWS Account:</strong> Free tier is sufficient for this tutorial</li>
+												<li><strong>Equipment:</strong> A Mac computer with internet connection</li>
+												<li><strong>Skills:</strong> Basic knowledge of Terminal and Python</li>
+											</ul>
+										</div>
+
+										<h2>Setup Instructions</h2>
+
+										<h3>1. Preparing Your Development Environment</h3>
+
+										<h4>Install Python 3</h4>
+										<ol>
+											<li>Open Terminal (Applications > Utilities or Command+Space, then type "Terminal")</li>
+											<li>Check your Python installation:
+												<div class="command-box">python3 --version</div>
+											</li>
+											<li>If not installed, download from <a href="https://www.python.org/downloads/macos/" target="_blank">python.org</a></li>
+										</ol>
+
+										<h4>Install AWS Command Line Interface</h4>
+										<ol>
+											<li>Install AWS CLI using pip:
+												<div class="command-box">pip3 install awscli</div>
+											</li>
+											<li>Verify installation:
+												<div class="command-box">aws --version</div>
+											</li>
+										</ol>
+
+										<h4>Configure AWS Credentials</h4>
+										<ol>
+											<li>Sign into your AWS Management Console</li>
+											<li>Click your username > Security credentials</li>
+											<li>Under "Access keys", create a new key</li>
+											<li>Configure AWS CLI:
+												<div class="command-box">aws configure</div>
+												Enter your Access Key ID, Secret Access Key, region (e.g., "us-east-1"), and output format ("json")
+											</li>
+										</ol>
+
+										<h4>Install Required Python Package</h4>
+										<div class="command-box">pip3 install boto3</div>
+
+										<h4>Download Project Files</h4>
+										<ol>
+											<li>Create a project directory:
+												<div class="command-box">
+													mkdir aws-kinesis-demo<br>
+													cd aws-kinesis-demo
+												</div>
+											</li>
+											<li>Clone the GitHub repository:
+												<div class="command-box">
+													git clone https://github.com/cloudcoacherrio/kinesis-basic-demo.git
+												</div>
+											</li>
+										</ol>
+
+										<h3>2. Create AWS Resources</h3>
+
+										<h4>Create Kinesis Data Stream</h4>
+										<ol>
+											<li>Navigate to your project directory:
+												<div class="command-box">cd kinesis-basic-demo</div>
+											</li>
+											<li>Run the script to create your data stream:
+												<div class="command-box">python3 createkds.py</div>
+											</li>
+											<li>Wait a few minutes for the stream to become active</li>
+										</ol>
+
+										<h4>Create DynamoDB Table</h4>
+										<ol>
+											<li>Run the table creation script:
+												<div class="command-box">python3 createkdsbasictable.py</div>
+											</li>
+											<li>Wait for the table to become active</li>
+										</ol>
+
+										<h4>Create IAM Role for Producer Lambda</h4>
+										<ol>
+											<li>Navigate to IAM in the AWS Console</li>
+											<li>Create a new policy using the JSON from <code>producerlambda.json</code></li>
+											<li>Create a new role for Lambda and attach the policy</li>
+										</ol>
+
+										<h3>3. Create Lambda Functions</h3>
+
+										<h4>Create Producer Lambda Function</h4>
+										<ol>
+											<li>Navigate to Lambda in the AWS Console</li>
+											<li>Create a new function from scratch:
+												<ul>
+													<li>Name: "KinesisProducerLambda"</li>
+													<li>Runtime: Python 3.9</li>
+													<li>Execution role: Use the producer role you created</li>
+												</ul>
+											</li>
+											<li>Copy the code from <code>kdsbasicproducer.py</code> into the Lambda editor</li>
+											<li>Deploy your function</li>
+										</ol>
+
+										<h4>Create IAM Role for Consumer Lambda</h4>
+										<ol>
+											<li>Create a new policy using the JSON from <code>consumerlambda.json</code></li>
+											<li>Create a new role for Lambda and attach the policy</li>
+										</ol>
+
+										<h4>Create Consumer Lambda Function</h4>
+										<ol>
+											<li>Create a new Lambda function:
+												<ul>
+													<li>Name: "KinesisConsumerLambda"</li>
+													<li>Runtime: Python 3.9</li>
+													<li>Execution role: Use the consumer role you created</li>
+												</ul>
+											</li>
+											<li>Copy the code from <code>kdsbasicconsumer.py</code> into the Lambda editor</li>
+											<li>Deploy your function</li>
+											<li>Add a Kinesis trigger:
+												<ul>
+													<li>Select "Kinesis" as trigger source</li>
+													<li>Select "demo-stream" from the dropdown</li>
+													<li>Enable the trigger immediately</li>
+												</ul>
+											</li>
+										</ol>
+										
+										<h3>4. Testing Your Pipeline</h3>
+										
+										<ol>
+											<li>Navigate to your Producer Lambda function</li>
+											<li>Create a test event using the contents of <code>producerlambdatest.json</code></li>
+											<li>Execute the test</li>
+											<li>Navigate to DynamoDB and view the "kds-basic-table"</li>
+											<li>Verify that a new record was added with value=99 and type=yellow</li>
+										</ol>
+										
+										<div class="alert alert-info">
+											<strong>🎉 Congratulations!</strong> You've built a fully functional serverless data pipeline! Your data is flowing from the Producer Lambda, through Kinesis Data Streams, processed by the Consumer Lambda, and stored in DynamoDB.
+										</div>
+										
+										<a href="https://github.com/cloudcoacherrio/kinesis-basic-demo.git" class="btn" target="_blank">Download Project Files</a>
+										
+									</section>
+
+							</div>
+							<div class="col-3 col-12-medium">
+
+								<!-- Sidebar -->
+									<section class="use-case">
+										<header>
+											<h2>Real-World Use Case</h2>
+										</header>
+										<h3>Patient Vital Signs Monitoring System</h3>
+										<p>
+											HealthStream Technologies is building a real-time patient monitoring solution for hospitals that tracks vital signs from thousands of medical devices across hospital wards.
+										</p>
+										
+										<h4>Business Challenge</h4>
+										<ul>
+											<li>Monitor vital signs in real-time</li>
+											<li>Process thousands of readings per second</li>
+											<li>Generate immediate alerts for critical conditions</li>
+											<li>Store historical data for patient records</li>
+										</ul>
+										
+										<h4>AWS Solution Architecture</h4>
+										<p>
+											Our pipeline demonstrates how to:
+										</p>
+										<ol>
+											<li><strong>Collect:</strong> Medical devices publish readings to Kinesis</li>
+											<li><strong>Process:</strong> Lambda functions detect anomalies and generate alerts</li>
+											<li><strong>Store:</strong> DynamoDB provides quick access to patient data</li>
+										</ol>
+										
+										<h4>Sample Data Flow</h4>
+										<pre style="font-size: 0.8rem;">
+{
+  "patientId": "P12345",
+  "value": 99,
+  "type": "heartRate",
+  "timestamp": "2023-11-01T14:32:10Z"
+}</pre>
+										
+										<a href="https://github.com/cloudcoacherrio/kinesis-basic-demo.git" class="btn" target="_blank">View on GitHub</a>
+									</section>
+									
+									<section>
+										<header>
+											<h2>Testing the Pipeline</h2>
+										</header>
+										<p>
+											Let's simulate a heart rate reading of 99 BPM (categorized as "yellow" - normal but elevated) flowing through our system:
+										</p>
+										
+										<ol>
+											<li>Create <code>producerlambdatest.json</code>:</li>
+											<pre style="font-size: 0.8rem;">
+{
+  "value": 99,
+  "type": "yellow"
+}</pre>
+											<li>Test the Producer Lambda function</li>
+											<li>Check DynamoDB for new records</li>
+											<li>Verify data processing workflow</li>
+										</ol>
+										
+										<div class="alert alert-info">
+											<strong>Why This Matters:</strong> This architecture can help hospitals monitor patients in real-time, potentially saving lives through rapid detection of adverse conditions.
+										</div>
+										
+										<a href="https://github.com/cloudcoacherrio/kinesis-basic-demo/blob/ee816fa4e4432d76e021cee4c3ca9aa9e3072f83/producerlambdatest.json" target="_blank" class="btn">View Test File</a>
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+				<section id="footer">
+					<div class="container">
+						<div class="row">
+							<div class="col-8 col-12-medium">
+
+								<!-- Links -->
+									<section>
+										<h2>Helpful AWS Resources</h2>
+										<div>
+											<div class="row">
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://aws.amazon.com/kinesis/data-streams/" target="_blank">Kinesis Data Streams</a></li>
+														<li><a href="https://aws.amazon.com/lambda/" target="_blank">AWS Lambda</a></li>
+														<li><a href="https://aws.amazon.com/dynamodb/" target="_blank">Amazon DynamoDB</a></li>
+														<li><a href="https://aws.amazon.com/serverless/" target="_blank">Serverless on AWS</a></li>
+													</ul>
+												</div>
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://aws.amazon.com/architecture/" target="_blank">AWS Architecture Center</a></li>
+														<li><a href="https://aws.amazon.com/getting-started/" target="_blank">Getting Started with AWS</a></li>
+														<li><a href="https://aws.amazon.com/training/" target="_blank">AWS Training</a></li>
+														<li><a href="https://aws.amazon.com/certification/" target="_blank">AWS Certification</a></li>
+													</ul>
+												</div>
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://docs.aws.amazon.com/cli/" target="_blank">AWS CLI Documentation</a></li>
+														<li><a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html" target="_blank">Boto3 Documentation</a></li>
+														<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/" target="_blank">Lambda Developer Guide</a></li>
+														<li><a href="https://aws.amazon.com/blogs/" target="_blank">AWS Blog</a></li>
+													</ul>
+												</div>
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://github.com/awslabs" target="_blank">AWS Labs on GitHub</a></li>
+														<li><a href="https://www.youtube.com/user/AmazonWebServices" target="_blank">AWS YouTube Channel</a></li>
+														<li><a href="https://aws.amazon.com/developer/community/" target="_blank">AWS Developer Community</a></li>
+														<li><a href="https://aws.amazon.com/events/" target="_blank">AWS Events & Webinars</a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</section>
+
+							</div>
+							<div class="col-4 col-12-medium imp-medium">
+
+								<!-- About Me -->
+									<section>
+										<h2>About Cloud Coach Errio</h2>
+										<p>
+											I'm passionate about helping others learn cloud technologies through hands-on projects and real-world examples. My tutorials focus on practical applications that you can immediately use in your own projects or career development.
+										</p>
+										<p>Follow me for more cloud architecture patterns, serverless design principles, and step-by-step guides to AWS services.</p>
+										<div class="social-links">
+											<a href="#" class="btn">Subscribe to Newsletter</a>
+										</div>
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; Cloud Coach Errio. All rights reserved. | Design: <a href="http://html5up.net">HTML5 UP</a>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

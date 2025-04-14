@@ -1,0 +1,431 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Amazon Bedrock Content Generator | Cloud Coach Errio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Learn how to integrate a Foundation Model from Amazon Bedrock into an Python application using Lambda, and DynamoDB" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- Add custom CSS for better readability -->
+		<style>
+			body {
+				font-family: 'Open Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+				line-height: 1.6;
+				color: #333;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+				color: #0d6efd;
+				margin-top: 1.5rem;
+				margin-bottom: 1rem;
+			}
+			code {
+				background-color: #f8f9fa;
+				padding: 2px 4px;
+				border-radius: 3px;
+				font-family: 'Consolas', 'Courier New', monospace;
+				color: #e83e8c;
+			}
+			pre {
+				background-color: #f8f9fa;
+				padding: 1rem;
+				border-radius: 5px;
+				overflow-x: auto;
+				border-left: 4px solid #0d6efd;
+				margin: 1.2rem 0;
+			}
+			.step-number {
+				display: inline-block;
+				background-color: #0d6efd;
+				color: white;
+				width: 25px;
+				height: 25px;
+				line-height: 25px;
+				text-align: center;
+				border-radius: 50%;
+				margin-right: 8px;
+			}
+			.use-case {
+				background-color: #f0f7ff;
+				border-left: 5px solid #0d6efd;
+				padding: 1.5rem;
+				border-radius: 5px;
+				margin-bottom: 2rem;
+			}
+			.command-box {
+				background-color: #212529;
+				color: #fff;
+				border-radius: 5px;
+				padding: 0.75rem;
+				margin: 1rem 0;
+			}
+			@media (max-width: 768px) {
+				.hide-mobile {
+					display: none;
+				}
+				#nav a {
+					margin: 0 0.5rem;
+					font-size: 0.9rem;
+				}
+			}
+			a {
+				color: #0d6efd;
+				text-decoration: none;
+			}
+			a:hover {
+				text-decoration: underline;
+			}
+			.btn {
+				display: inline-block;
+				padding: 0.5rem 1rem;
+				background-color: #0d6efd;
+				color: white;
+				border-radius: 5px;
+				text-decoration: none;
+				margin-top: 1rem;
+				font-weight: 600;
+			}
+			.btn:hover {
+				background-color: #0b5ed7;
+				text-decoration: none;
+			}
+			.alert {
+				padding: 1rem;
+				border-radius: 5px;
+				margin: 1rem 0;
+			}
+			.alert-warning {
+				background-color: #fff3cd;
+				border-left: 4px solid #ffc107;
+			}
+			.alert-info {
+				background-color: #cff4fc;
+				border-left: 4px solid #0dcaf0;
+			}
+			.features-list li {
+				margin-bottom: 0.75rem;
+			}
+		</style>
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Logo 
+									<h3><a href="index.html" id="logo">Cloud Coach Errio</a></h3> -->
+
+								<!-- Nav -->
+									<nav id="nav">
+										<a href="index.html">Home</a>
+										<a href="threecolumn.html">Projects</a>
+										<a href="twocolumn1.html" class="active">Cloud Tutorials</a>
+										<a href="twocolumn2.html">Automation News</a>
+										<a href="onecolumn.html">My Journey</a>
+									</nav>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Content -->
+				<section id="content">
+					<div class="container">
+						<div class="row">
+							<div class="col-9 col-12-medium">
+
+								<!-- Main Content -->
+									<section>
+										<header>
+											<h1>Integrating FMs into your application with Amazon Bedrock</h1>
+											<h3>Build a Content Generator app!</h3>
+										</header>
+										
+										<div class="alert alert-info">
+											<strong>👨‍💻 Hands-On Learning:</strong> In this tutorial, you'll build an application that produces unique blog content base on a users prompt.
+										</div>
+										
+										<iframe frameborder="0" style="width:100%;height:663px;" src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=contentgen.drawio&dark=auto#R%3Cmxfile%3E%3Cdiagram%20name%3D%22Bedrock%20Content%20Generator%20Architecture%22%20id%3D%22Hi68DpH9c-AWotgqZYNH%22%3E7VtZU%2BO4Fv411G0e6LLjJITHLHQPdcNSQA%2FDvMm2EmuwLbckE9K%2Ffo4WL7GcJvRkYaYAilhH%2BzmfzmblyBsnL18ZyqJLGuL4qOOEL0fe5KjTcTtuHz4kZWkobrerKXNGQkOrCHfkBzZEx1BzEmK%2B0lBQGguSrRIDmqY4ECs0xBhdrDab0Xh11gzNsUW4C1BsUx9IKKJiG45TVfyGyTwyUw96piJBRWND4BEK6aJG8s6PvDGjVOin5GWMY8m9gi%2B635c1teXCGE7FJh3E792bIHwgY%2FevPx8GE9F99E9PzCjPKM7Nhu8xF0A5f5bDdkB8HojCG30SNCOBgMrPf3GaHps9iWXBKEbzNMRyLheaLyIi8F2GAlm7AGwALRJJbKpnJI7HNKZM9fVChAezAOhcMPqEazX9YID9GdSYdWIm8MtaBrglWwGQmCZYsCU0KdFoJGGwWEpmURNsQYtqMu0bGjJYmpdDV%2ByGB8PxN3C%2FY3F%2FihI%2FRED7kqeBIDStiwAwLmCvc5xihgRln7PlluXQw4Ow2yaHQcf3%2Bv3tyMHbRA79fcrBs%2BQwWaYooRPYrnOPfOBtTQxjLYavWgwgoymdb1cOsxnuB63nITw98x1nO3Lo9d%2BbHLqWHCy24jQcSrUOpSBGnJNglZMV2yWX8AsRf5ga%2Bfwo6Z97pjR5qTWbLItCClv5o16o9ZLFqpsqFf30UnFo2ZOGPGA7NGcBfl0rC8TmWLymP2z51uTXaxFfQWM4Bvg%2Bry63TaZmhhtKpEko4FOOs2yUiyH0Nk2vumFqDOQ5jYGcxkCaD9ZACmLltn8ddb0P1NWt0auo8w6Juu7ZllDX6x4WdX0LdTcMM%2Fw9JxxMBbcgyBckiVGKpbUAA3RnaiQGgojE4RQtaS55zQUKnorSKKKM%2FID2qIAqVDNh%2FGzPWWlxJ3uaMRnm0OamgJHbIF2il5WGU8RFsRoaxyjjxFfrkx0T4CRJR1QImphGb7SHPfnb6h%2BqH8OTGl3%2F7MZv7NtmsgRPHfFlv63byVMLO8OHOyBcohTCkUR57g64KZxKz8UZBgHoJ2FBClgiLKamVGOsJgFDQjGZp1CM8Ux2kzwlECgNDTkhYShHHnEQK0nnU9Vs0q0ot4Y3kkSh%2ByxWGjWCjhhGGGXyrCle9UbwB9wbSwXYg7WOoexWZfiTzZmQmxQMESVJDCBcyPBFKmSBBPLLI%2FIK3jZCyfpjbENnWZi2zaDi7QopAwspF8NLIOQcM7UuWBbsErOEgFUDZn6AZO8g2VSf7AwkZ7YpWopIxp6OJ7nacXwqqHnUmmY8vfhAyt6RcnZopBRZOUuf3CpLs8UQGLthD5%2B2mfyz%2FqmHdpSK8DYNgbs747CdkdtSNFJFII9HVWzyWjRSBSCP9br3E424TruE9xSONGPXs18MR7rNaLqJsB2HI66di6zSjRmNSbBUid91Wr8Gv7cagAAmAW%2FkJyagTXWsgnwLuqApSq%2FFLremh3enbe285B0WeQakB8qelL37CBNrYeIgwO1pU3%2FQkwdsJ2nTw4eDrp03dT9DeUrhMMHnefpMGE1NXHjDMGwW6ZcLHy7c1l04d01%2B7L2EhK6d7%2BxItIwZRkKmC%2Bx3Hx8o2TdKDh4TunZ%2B0ltBifWm8iN1cACcHD4ibMlFpiJi8raAhEuM8lDCxQPGdpw7eUvDTkTCPCTjSrYRyiQxiGkevt0BmM06a96b9v1%2Bb0dBo7tp0DjYmRDsNJ%2FN4y0EjWWc%2BKag0X2HQeNpu4QPFDQ2PcNfDRrd0z0HjXbm8B5wBGqRR5QKUMl2fGIOeIRf0JwqrYwZgYXICLCg3hSkziYq4AUX98be%2Fauj1vxSW0y5M1VRTFYT2TjGSOZ6v2W1Wy4n0hHEMV619bPK1re3rPmOonFvRra7xQkYZnjQWUNG47Y3nQYiIQ1yFbO8igFf666p%2Fy7fHzYDxo2TjLsDgZ1kHOGQUQjr1XtDoSPFr8VFM3geskDKIBA5WxsQHDgHpPIdRhEUIi3yH%2B4W5Nhp3BhwbTF29%2Bp7dez8EJy3WIrCh4e5fBheDv%2B8voJGo%2FPJ7fX4%2F0UDmLBsU9BC8twkWW1IOfDV%2FW%2B31zcX8p3QeDr8NjmvvLzrq6vze3j4vVObjjSHalsC0FpWscnC8oJwc3txObx9lJHJt6vx%2FYXcfTl4vt1FsDd31Wcqjpf6bdoa%2F9ghXJ65wpH%2Bnyyh8BmlAaC948TSrKvPdJ4j9Vhf0pdissTcx%2F40nV4eS5UcITl4oNR9BucdczVyKgc110rlYOo8q%2FVBtKeSvg4KGFWNnxEjNOfrplTXhLnurMeFeZ6J2mOUJyg9ickTViPzDAwJ5jKqvBBqiyHmcOrVFmdK66QI9I3KYbVOVtu%2FVASMC5hSeR2re1KpLjBI%2FEnOtnshX6jpIiVEnuGAzFQwhFZ06M%2FEj7IMIya7Cwr%2FfCWUSN3luIB%2FhVyNPDO6wLqxahKUCnxl%2B4XtBpUrlmvZ0NDsrxheJHcn1ZzywuwYfgtat6F0u52epXXBD7a1bkncvtptu6baVLvqLfl0eDmaDP%2Bpyv2XaLb7qNVVhEfQMiBsorUeaBLBtVgKwFI4F1imWbSrQWevQXlRvv2QhyiCsx7rU697%2BTknqVZtMZ2ro%2BdjscA4LZuQNMuF0kLfc%2F2FB60wOCyhPlShFMNqMfLooEQehNTnWY0XPFN6tTo9%2Fe85VcxEwdNc%2BSongXZ%2FhnIChlJenIORGr%2BsiyWOT0LEnj6xuf%2FJ0RstPo6NboaaTq%2BnC%2FWH42O9KjN9IaBSNAENNQ%2FA5ZrB0eZH5U2gUiFJy5PPJWl4c6FsRhwbtS65O6%2FBQu%2F7jWgZJuiHkmXleNYQwTF7JgGuqThtRBRwAmO2lGrU7ZVC3ItqX4%2FyNV%2FPcBL0pNZtOKiX3VD89oJKU6Ca12xzdSR8xBUu1ewFoGeMJiVbhIY21t%2FlaZml%2Ba2etdh%2B92bCK15rvCM70XaxfJ17Pnm8Gl5eT36qvf9zxsLOFjjrvl2jVAJuGI4M3B7CzXGQqlv7ggFNwLXU1JoxeS3E5UsYKtnH7m9xgIneTYgEah7bt2gXNBPqJucaS6lcUMkPnZ85oGBXnYA2aWr%2Bq0AgwQllJkQCOxk8aZtsrwupY7hm8%2BCACzXMSiSihyqho6yMjjb0MuxJ1jgB%2Fw7F2DvbowMNxeoLrTrLXH0v2Dv%2FGw%3D%3D%3C%2Fdiagram%3E%3C%2Fmxfile%3E"></iframe>
+										
+										<h2>Overview</h2>
+										<p>In this hands-on tutorial, you'll create an AWS content generation system using Amazon Bedrock with Claude 3.5 Sonnet. You'll build a serverless architecture that processes requests through Lambda and stores results in DynamoDB, demonstrating how to integrate large language models into AWS workflows.</p>
+										
+										<div class="alert alert-warning">
+											<strong>🎯 What you'll build:</strong> A serverless content generation pipeline that processes requests and generates content using AWS Lambda, Amazon Bedrock with Claude 3.5 Sonnet, and stores results in Amazon DynamoDB.
+										</div>
+
+										<h2>Prerequisites</h2>
+										<div class="features-list">
+											<ul>
+												<li><strong>AWS Account:</strong> THERE IS A LOW-COST FOR RUNNING THIS APP</li>
+												<li><strong>Equipment:</strong> A Mac computer with internet connection</li>
+												<li><strong>Skills:</strong> Basic knowledge of Terminal and Python</li>
+											</ul>
+										</div>
+
+										<h2>Setup Instructions</h2>
+
+										<h3>1. Preparing Your Development Environment</h3>
+
+										<h4>Install Python 3</h4>
+										<ol>
+											<li>Open Terminal (Applications > Utilities or Command+Space, then type "Terminal")</li>
+											<li>Check your Python installation:
+												<div class="command-box">python3 --version</div>
+											</li>
+											<li>If not installed, download from <a href="https://www.python.org/downloads/macos/" target="_blank">python.org</a></li>
+										</ol>
+
+										<h4>Install AWS Command Line Interface</h4>
+										<ol>
+											<li>Install AWS CLI using pip:
+												<div class="command-box">pip3 install awscli</div>
+											</li>
+											<li>Verify installation:
+												<div class="command-box">aws --version</div>
+											</li>
+										</ol>
+
+										<h4>Configure AWS Credentials</h4>
+										<ol>
+											<li>Sign into your AWS Management Console</li>
+											<li>Click your username > Security credentials</li>
+											<li>Under "Access keys", create a new key</li>
+											<li>Configure AWS CLI:
+												<div class="command-box">aws configure</div>
+												Enter your Access Key ID, Secret Access Key, region (e.g., "us-east-1"), and output format ("json")
+											</li>
+										</ol>
+
+										<h4>Install Required Python Package</h4>
+										<div class="command-box">pip3 install boto3</div>
+
+										<h4>Download Project Files</h4>
+										<ol>
+											<li>Create a project directory:
+												<div class="command-box">
+													mkdir contentgen<br>
+													cd contentgen
+												</div>
+											</li>
+											<li>Clone the GitHub repository:
+												<div class="command-box">
+													git clone https://github.com/cloudcoacherrio/bedrockcontentgenerator.git
+												</div>
+											</li>
+										</ol>
+
+										<h3>2. Create AWS Resources</h3>
+
+										<h4>Create DynamoDB Table</h4>
+										<ol>
+											<li>Run the table creation script:
+												<div class="command-box">python3 contentgenaidb.py</div>
+											</li>
+											<li>Wait for the table to become active</li>
+										</ol>
+
+										<h4>Create IAM Role for Lambda</h4>
+										<ol>
+											<li>Navigate to IAM in the AWS Console</li>
+											<li>Create a new policy using the JSON from <code>contentgenpolicy.json</code></li>
+											<li>Create a new role for Lambda and attach the policy</li>
+										</ol>
+
+										<h3>3. Create Lambda Functions</h3>
+
+										<h4>Create Lambda Function</h4>
+										<ol>
+											<li>Navigate to Lambda in the AWS Console</li>
+											<li>Create a new function from scratch:
+												<ul>
+													<li>Name: "contentgenerator"</li>
+													<li>Runtime: Python 3.9</li>
+													<li>Execution role: Use the producer role you created</li>
+												</ul>
+											</li>
+											<li>Copy the code from <code>contentgenerator.py</code> into the Lambda editor</li>
+											<li>Deploy your function</li>
+										</ol>
+										
+										<h3>4. Testing Your App</h3>
+										
+										<ol>
+											<li>Navigate to your Lambda function</li>
+											<li>Create a test event using the contents of <code>topictest.json</code></li>
+											<li>Execute the test</li>
+											<li>Navigate to DynamoDB and view the "contentgeneratorlog" table</li>
+											<li>Verify that a new record was added with "AI in Healthcare" topic</li>
+										</ol>
+										
+										<div class="alert alert-info">
+											<strong>🎉 Congratulations!</strong> You've built a fully functional serverless content generator application! Be sure to change the topic on the test event to generate more! </div></strong>
+										</div>
+										
+										<a href="https://github.com/cloudcoacherrio/bedrockcontentgenerator.git" class="btn" target="_blank">Download Project Files</a>
+										
+									</section>
+
+							</div>
+							<div class="col-3 col-12-medium">
+
+								<!-- Sidebar -->
+									<section class="use-case">
+										<header>
+											<h2>Real-World Use Case</h2>
+										</header>
+										<h3>Dynamic Blog Content Engine for Travel Agency</h3>
+										<p>
+											A mid-sized travel agency, "Horizon Adventures," needed to improve their content marketing strategy by publishing regular, high-quality blog posts about travel destinations. However, their small marketing team couldn't keep pace with the content demands.
+										</p>
+										
+										<h4>Business Challenge</h4>
+										<ul>
+											<li>Need to produce travel guides weekly</li>
+											<li>Limited in-house writing resources</li>
+											<li>Content needed to match brand voice and style</li>
+											<li>Writers needed to focus on high-value creative tasks</li>
+										</ul>
+										
+										<h4>Your Challenge</h4>
+										<p>
+											You'll implement a serverless architecture that:
+										</p>
+										<ol>
+											<li><strong>Accepts basic travel destination details (via the test event file topictest.json)</strong> </li>
+											<li><strong>Processes these details through a Lambda function (contentgenerator.py)</strong></li>
+											<li><strong>Sends prompts to Claude 3.5 Sonnet via Amazon Bedrock</strong></li>
+											<li><strong>Stores generated content in DynamoDB for the marketing team to access</strong></li>
+										</ol>
+										
+										<h4>Sample Input</h4>
+										<pre style="font-size: 0.8rem;">
+{
+  "locationname": "Paris",
+  "season": fall,
+  "topic": "Vacation to Paris",
+  "timestamp": "2023-11-01T14:32:10Z"
+}</pre>
+										
+										<a href="https://github.com/cloudcoacherrio/bedrockcontentgenerator.git" class="btn" target="_blank">View on GitHub</a>
+									</section>
+									
+									<section>
+										<header>
+											<h2>Testing our content generator!</h2>
+										</header>
+										<p>
+											Let's simulate a simple article about "AI in Healthcare" to test out our application:
+										</p>
+										
+										<ol>
+											<li>Create <code>topictest.json</code>:</li>
+											<pre style="font-size: 0.8rem;">
+{
+    "topic": "The Future of Artificial Intelligence in Healthcare"
+}</pre>
+											<li>Test the Lambda function</li>
+											<li>Check DynamoDB for new records</li>
+											<li>Verify data processing workflow</li>
+										</ol>
+										
+										<div class="alert alert-info">
+											<strong>Why This Matters:</strong> This architecture can help entreprenuers or larger enterprises continously produce blog content at scale.
+										</div>
+										
+										<a href="https://github.com/cloudcoacherrio/bedrockcontentgenerator/blob/main/topictest.json" target="_blank" class="btn">View Test File</a>
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+				<section id="footer">
+					<div class="container">
+						<div class="row">
+							<div class="col-8 col-12-medium">
+
+								<!-- Links -->
+									<section>
+										<h2>Helpful AWS Resources</h2>
+										<div>
+											<div class="row">
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://aws.amazon.com/bedrock/" target="_blank">Amazon Bedrock</a></li>
+														<li><a href="https://aws.amazon.com/lambda/" target="_blank">AWS Lambda</a></li>
+														<li><a href="https://aws.amazon.com/dynamodb/" target="_blank">Amazon DynamoDB</a></li>
+														<li><a href="https://aws.amazon.com/serverless/" target="_blank">Serverless on AWS</a></li>
+													</ul>
+												</div>
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://aws.amazon.com/architecture/" target="_blank">AWS Architecture Center</a></li>
+														<li><a href="https://aws.amazon.com/getting-started/" target="_blank">Getting Started with AWS</a></li>
+														<li><a href="https://aws.amazon.com/training/" target="_blank">AWS Training</a></li>
+														<li><a href="https://aws.amazon.com/certification/" target="_blank">AWS Certification</a></li>
+													</ul>
+												</div>
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://docs.aws.amazon.com/cli/" target="_blank">AWS CLI Documentation</a></li>
+														<li><a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html" target="_blank">Boto3 Documentation</a></li>
+														<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/" target="_blank">Lambda Developer Guide</a></li>
+														<li><a href="https://aws.amazon.com/blogs/" target="_blank">AWS Blog</a></li>
+													</ul>
+												</div>
+												<div class="col-3 col-12-small">
+													<ul class="link-list last-child">
+														<li><a href="https://github.com/awslabs" target="_blank">AWS Labs on GitHub</a></li>
+														<li><a href="https://www.youtube.com/user/AmazonWebServices" target="_blank">AWS YouTube Channel</a></li>
+														<li><a href="https://aws.amazon.com/developer/community/" target="_blank">AWS Developer Community</a></li>
+														<li><a href="https://aws.amazon.com/events/" target="_blank">AWS Events & Webinars</a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</section>
+
+							</div>
+							<div class="col-4 col-12-medium imp-medium">
+
+								<!-- About Me -->
+									<section>
+										<h2>About Cloud Coach Errio</h2>
+										<p>
+											I'm passionate about helping others learn cloud technologies through hands-on projects and real-world examples. My tutorials focus on practical applications that you can immediately use in your own projects or career development.
+										</p>
+										<p>Follow me for more cloud architecture patterns, serverless design principles, and step-by-step guides to AWS services.</p>
+										<div class="social-links">
+											<a href="#" class="btn">Subscribe to Newsletter</a>
+										</div>
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Copyright 
+				<div id="copyright">
+					&copy; Cloud Coach Errio. All rights reserved. | Design: <a href="http://html5up.net">HTML5 UP</a>
+				</div> -->
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
